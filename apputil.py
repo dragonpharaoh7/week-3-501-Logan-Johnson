@@ -20,10 +20,10 @@ def fibonacci(n):
 
 
 def to_binary(number):
-    """Return the binary representation of a non-negative integer."""
+    """Return the binary representation of a non-negative integer as a str."""
     if number < 2:
-        return number
-    return number % 2 + 10 * to_binary(number // 2)
+        return str(number)
+    return to_binary(number // 2) + str(number % 2)
 
 
 def task_1():
@@ -46,3 +46,18 @@ def task_2():
         .rename_axis('year')
         .reset_index(name='total_admissions')
     )
+
+
+def task_3():
+    """Return the average age for each gender."""
+    print("Messy data: 'gender' has stray values ('?', 'g', 'h') and "
+          "'age' has missing values; both are excluded from the averages.")
+    gender = df_bellevue['gender'].replace(['?', 'g', 'h'], np.nan)
+    return df_bellevue.groupby(gender)['age'].mean()
+
+
+def task_4():
+    """Return the 5 most common professions, most common first."""
+    print("Messy data: 'profession' has missing values, which are not "
+          "counted.")
+    return df_bellevue['profession'].value_counts().head(5).index.tolist()
